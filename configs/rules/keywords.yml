@@ -1,0 +1,228 @@
+# rules/keywords.yml
+# Konsolidierte Keyword-Definitionen für Policy-Detection & Baseline-Klassifikation
+schema_version: "1.0"
+
+general:
+  positive:
+    # allgemeine Klimaschutz-/Energiewendebegriffe
+    - "klimaschutz"
+    - "klimaschutzkonzept"
+    - "klimaplan"
+    - "klimafahrplan"
+    - "klimaneutral"
+    - "klimaneutralität"
+    - "klimawandel"
+    - "klimawandelanpassung"
+    - "klimaanpassung"
+    - "klimafolgen"
+    - "resilienz"
+    - "klimaschutzstrategie"
+    - "klimaschutzprogramm"
+    - "klimaschutzmaßnahme"
+    - "energie- und klimaschutz"
+    - "emissionsminderung"
+    - "emissionsreduktion"
+    - "energieeffizienz"
+    - "energieeinsparung"
+    - "treibhausgas"
+    - "co2"
+    - "klimaschutzmanagement"
+    - "klimaschutzbeauftragte"
+    - "klimaschutzstelle"
+    - "klimaschutzrat"
+    - "leitbild"
+    - "leitstrategie"
+    - "aktionsplan"
+    - "aktionsprogramm"
+    - "roadmap"
+    - "maßnahmenplan"
+    - "massnahmenplan"
+
+  negative:
+    - "klimatisierung"
+    - "klimaanlage"
+    - "arbeitsklima"
+    - "schulklima"
+    - "karriere"
+    - "stellenangebot"
+    - "stellenausschreibung"
+    - "freizeit"
+    - "tourismus"
+    - "veranstaltung"
+    - "events"
+    - "kino"
+    - "weihnachten"
+    - "flohmarkt"
+    - "marktplatz"
+    - "kulturprogramm"
+    - "konzert"
+    - "serviceportal"
+    - "branchenbuch"
+    - "kontaktformular"
+
+thematic:
+  energy:
+    include:
+      - "photovoltaik"
+      - "pv-anlage"
+      - "solaranlage"
+      - "solarstrom"
+      - "solarthermie"
+      - "solarenergie"
+      - "solaroffensive"
+      - "solarstrategie"
+      - "erneuerbare energien"
+      - "wärmepumpe"
+      - "wärmeplanung"
+      - "kommunale wärmeplanung"
+      - "fernwärme"
+      - "wärmenetz"
+      - "energienutzungsplan"
+      - "energieversorgung"
+      - "energieerzeugung"
+      - "biomasse"
+      - "blockheizkraftwerk"
+      - "energieberatung"
+      - "energiesparberatung"
+      - "energieaudit"
+      - "stromspar-check"
+      - "effizienzhaus"
+      - "energiecontracting"
+    exclude:
+      - "energiepreis"
+      - "stromausfall"
+
+  buildings:
+    include:
+      - "gebäudesanierung"
+      - "energetische sanierung"
+      - "dämmung"
+      - "wärmedämmung"
+      - "fassadendämmung"
+      - "dachsanierung"
+      - "fenstertausch"
+      - "heizungsmodernisierung"
+      - "heizungstausch"
+      - "sanierungsprogramm"
+      - "sanierungsoffensive"
+      - "kommunale gebäude"
+      - "energieberatung"
+      - "energiesparberatung"
+      - "wohngebäude"
+      - "mietshaus"
+    exclude: []
+
+  mobility:
+    include:
+      - "radverkehr"
+      - "radverkehrskonzept"
+      - "radwegenetz"
+      - "fahrradstrategie"
+      - "fahrradförderung"
+      - "fahrradstraßen"
+      - "verkehrsberuhigung"
+      - "nahmobilität"
+      - "fußverkehr"
+      - "lastenrad"
+      - "elektromobilität"
+      - "e-ladestation"
+      - "ladestation"
+      - "ladinfrastruktur"
+      - "carsharing"
+      - "e-carsharing"
+      - "öpnv"
+      - "oepnv"
+      - "stadtbus"
+      - "bahnverkehr"
+      - "mobilitätskonzept"
+      - "verkehrswende"
+    exclude: []
+
+  funding:
+    include:
+      - "förderprogramm"
+      - "förderprogramm klimafreundlich"
+      - "förderung klimaschutz"
+      - "förderung energieeffizienz"
+      - "zuschuss"
+      - "zuschussprogramm"
+      - "investitionszuschuss"
+      - "darlehen"
+      - "förderkredit"
+      - "fördermittel"
+      - "förderantrag"
+      - "fördermöglichkeiten"
+      - "förderrichtlinie"
+      - "zuwendungsrichtlinie"
+      - "fördertopf"
+      - "kommunalrichtlinie"
+      - "nationalen klimaschutzinitiative"
+      - "nki"
+    exclude: []
+
+  adaptation:
+    include:
+      - "hitzeaktionsplan"
+      - "hitzeaktionsplanung"
+      - "hitzeschutz"
+      - "hitzeschutzkonzept"
+      - "hitzeschutzmaßnahmen"
+      - "entsiegelung"
+      - "entsiegelungsprogramm"
+      - "grünflächenkonzept"
+      - "gruenflaechenkonzept"
+      - "regenwassermanagement"
+      - "überflutungsschutz"
+      - "hochwasserschutz"
+      - "starkregen"
+      - "wassersensibel"
+      - "baumschutzkonzept"
+      - "baumpflanzprogramm"
+      - "stadtbäume"
+    exclude: []
+
+  participation:
+    include:
+      - "klimabürger:innenrat"
+      - "klimawerkstatt"
+      - "klimadialog"
+      - "klimaforum"
+      - "beteiligungsverfahren klimaschutz"
+      - "beteiligungsprozess klimakonzept"
+      - "bürgerbeteiligung klimaschutz"
+    exclude: []
+
+  information_advice:
+    include:
+      - "klimaschutzkampagne"
+      - "kampagne"
+      - "infoveranstaltung"
+      - "klimaberatung"
+      - "energieberatung"
+      - "beratungsangebot"
+      - "infoservice"
+      - "sensibilisierung"
+    exclude: []
+
+  digitalization:
+    include:
+      - "online-dienst"
+      - "online-service"
+      - "online beantragen"
+      - "digitales antragsverfahren"
+      - "elektronische antragstellung"
+      - "servicekonto"
+      - "bundid"
+      - "onlinezugangsgesetz"
+      - "ozg"
+    exclude: []
+
+matching:
+  case_insensitive: true
+  use_stemming: false
+  use_lemmatization: false
+
+  minimum_general_positive: 1
+  minimum_thematic_positive: 1
+
+  use_regex: false

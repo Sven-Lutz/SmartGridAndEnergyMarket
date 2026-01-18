@@ -1,0 +1,492 @@
+# configs/schema/measure_schema.yml
+
+schema:
+  id: "measure_v1"
+  label: "Kommunale Klimaschutzmaßnahme"
+  description: "Strukturiertes Schema für aus Texten extrahierte kommunale Klimaschutzmaßnahmen."
+  primary_key: "measure_id"
+  version: "1.0.0"
+  created: "2025-12-08"
+
+  # optionale Sekundärschlüssel für Analysen
+  indices:
+    - ["municipality_id"]
+    - ["country_code", "state_code"]
+    - ["funding_program_level", "funding_program_code"]
+    - ["policy_area"]
+    - ["instrument_type"]
+
+entity:
+  name: "measure"
+  description: "Einzelne kommunale Klimaschutzmaßnahme oder -programm."
+
+fields:
+  # --- Identifikation & Kontext ------------------------------------------------
+  - name: measure_id
+    type: string
+    required: true
+    description: "Eindeutige ID der Maßnahme innerhalb des Datensatzes."
+    example: "de_by_09162000_M000123"
+
+  - name: municipality_id
+    type: string
+    required: true
+    description: "Kommunen-ID (z.B. AGS oder internes Identifier-Mapping)."
+    example: "09162000"
+
+  - name: municipality_name
+    type: string
+    required: false
+    description: "Name der Kommune."
+    example: "Stadt Bayreuth"
+
+  - name: country_code
+    type: string
+    required: true
+    description: "Ländercode (ISO 3166-1 alpha-2)."
+    example: "DE"
+
+  - name: state_code
+    type: string
+    required: false
+    description: "Ländercode auf Bundeslandebene (z.B. 'BY', 'BW')."
+    example: "BY"
+
+  - name: source_scope
+    type: string
+    required: true
+    description: "Name des Crawling-Scopes (z.B. 'de_by', 'de_sample')."
+    example: "de_by"
+
+  # --- Dokumentquelle ----------------------------------------------------------
+  - name: source_document_id
+    type: string
+    required: true
+    description: "Interne ID des Quelldokuments (Verweis auf documents_extracted)."
+    example: "doc_00004567"
+
+  - name: source_document_type
+    type: enum
+    enum: document_type
+    required: false
+    description: "Dokumenttyp (z.B. Ratsprotokoll, Satzung, Förderrichtlinie)."
+    example: "council_minutes"
+
+  - name: source_url
+    type: string
+    required: false
+    description: "URL des Quelldokuments."
+    example: "https://www.example.de/rathaus/klimaschutz/satzung.pdf"
+
+  - name: source_referrer_url
+    type: string
+    required: false
+    description: "Seite, von der auf das Dokument verlinkt wurde."
+
+  - name: crawl_timestamp
+    type: datetime
+    required: false
+    description: "Zeitpunkt, zu dem das Dokument gecrawlt wurde (ISO 8601)."
+    example: "2025-06-01T13:45:00Z"
+
+  - name: extraction_method
+    type: string
+    required: false
+    description: "Verwendetes Extraktionsverfahren (regelbasiert, LLM, Hybrid)."
+    example: "llm:gpt-4o@2025-05-01"
+
+  - name: extraction_run_id
+    type: string
+    required: false
+    description: "ID des Extraktions-/Pipeline-Runs zur Reproduzierbarkeit."
+
+  # --- Textausschnitte ---------------------------------------------------------
+  - name: title
+    type: string
+    required: false
+    description: "Kurztitel der Maßnahme, ggf. aus Dokument abgeleitet."
+    example: "Förderprogramm für private Photovoltaikanlagen"
+
+  - name: short_description
+    type: string
+    required: false
+    description: "Kurzbeschreibung der Maßnahme in 1–3 Sätzen (extrahiert/zusammengefasst)."
+
+  - name: snippet
+    type: string
+    required: true
+    description: "Originaltextausschnitt, der für die Klassifikation verwendet wurde."
+
+  - name: full_text_span_start
+    type: integer
+    required: false
+    description: "Startindex des Ausschnitts im Volltext (Zeichenoffset)."
+
+  - name: full_text_span_end
+    type: integer
+    required: false
+    description: "Endindex des Ausschnitts im Volltext (Zeichenoffset)."
+
+  # --- Kategorisierung: Politikbereich & Instrument ----------------------------
+  - name: policy_area
+    type: enum
+    enum: policy_area
+    required: true
+    description: "Thematischer Politikbereich der Maßnahme."
+    example: "energy_buildings"
+
+  - name: instrument_type
+    type: enum
+    enum: instrument_type
+    required: true
+    description: "Instrumententyp der Maßnahme (z.B. Förderung, ordnungsrechtlich)."
+    example: "subsidy"
+
+  - name: instrument_subtype
+    type: enum
+    enum: instrument_subtype
+    required: false
+    description: "Feinere Typisierung (z.B. Zuschuss, zinsgünstiges Darlehen)."
+    example: "grant"
+
+  - name: target_sector
+    type: enum
+    enum: target_sector
+    required: false
+    description: "Adressierter Sektor (Haushalte, Unternehmen, Verkehr, Verwaltung)."
+    example: "households"
+
+  - name: target_group
+    type: list
+    items:
+      type: enum
+      enum: target_group
+    required: false
+    description: "Feinere Zielgruppen (z.B. Eigentümer, Mieter, Gewerbe)."
+
+  - name: climate_dimension
+    type: enum
+    enum: climate_dimension
+    required: false
+    description: "Mitigation (Minderung), Adaptation (Anpassung) oder beides."
+    example: "mitigation"
+
+  # --- Leistungs- und Ausgestaltungsparameter ---------------------------------
+  - name: co2_reduction_estimate_t_per_year
+    type: number
+    required: false
+    description: "Geschätzte jährliche CO₂-Einsparung (Tonnen/Jahr), falls verfügbar."
+
+  - name: budget_total_eur
+    type: number
+    required: false
+    description: "Gesamtbudget der Maßnahme in Euro, falls im Text angegeben."
+
+  - name: subsidy_amount_min_eur
+    type: number
+    required: false
+    description: "Mindestfördersumme je Antrag, falls spezifiziert."
+
+  - name: subsidy_amount_max_eur
+    type: number
+    required: false
+    description: "Maximale Fördersumme je Antrag, falls spezifiziert."
+
+  - name: subsidy_rate_percent
+    type: number
+    required: false
+    description: "Fördersatz in Prozent, falls angegeben."
+    example: 30.0
+
+  - name: implementation_start_date
+    type: date
+    required: false
+    description: "Beginn der Umsetzung / Förderperiode."
+
+  - name: implementation_end_date
+    type: date
+    required: false
+    description: "Ende der Umsetzung / Förderperiode."
+
+  - name: application_deadline
+    type: date
+    required: false
+    description: "Ende der Antragsfrist, falls vorhanden."
+
+  - name: is_permanent_program
+    type: boolean
+    required: false
+    description: "Dauerhaftes Programm (true), oder befristete Maßnahme (false)."
+
+  # --- Governance & Verantwortlichkeit -----------------------------------------
+  - name: responsible_unit
+    type: string
+    required: false
+    description: "Verantwortliche Organisationseinheit in der Kommune."
+    example: "Amt für Umwelt- und Klimaschutz"
+
+  - name: cooperation_partners
+    type: list
+    items:
+      type: string
+    required: false
+    description: "Liste relevanter Partner (z.B. Stadtwerke, Energieagentur)."
+
+  # --- Förderprogramme & Finanzierung -----------------------------------------
+  - name: has_external_funding
+    type: boolean
+    required: false
+    description: "Gibt an, ob externe Fördermittel (EU/Bund/Land) genutzt werden."
+
+  - name: funding_program_level
+    type: enum
+    enum: funding_level
+    required: false
+    description: "Ebene des Förderprogramms (EU, Bund, Land, Kommune)."
+    example: "national"
+
+  - name: funding_program_code
+    type: string
+    required: false
+    description: "Identifikator oder Kürzel des Förderprogramms, falls erkennbar."
+    example: "NKI"
+
+  - name: funding_program_name
+    type: string
+    required: false
+    description: "Name des Förderprogramms, wie im Text genannt."
+    example: "Nationale Klimaschutzinitiative"
+
+  # --- Digitalisierung (Verknüpfung zu digitalization-rules) -------------------
+  - name: digitalization_level
+    type: integer
+    required: false
+    description: "Digitalisierungsgrad nach rules/digitalization.yml (level id 0–4)."
+    example: 3
+
+  - name: digitalization_level_name
+    type: string
+    required: false
+    description: "Lesbarer Name des Digitalisierungsgrads (z.B. 'online_full_digital')."
+
+  # --- Labels, Scores & Qualität ----------------------------------------------
+  - name: label_source
+    type: enum
+    enum: label_source
+    required: false
+    description: "Quelle des Labels (Goldstandard, LLM, Heuristik, Mixed)."
+    example: "llm"
+
+  - name: labeler_id
+    type: string
+    required: false
+    description: "ID der annotierenden Person oder des Systems."
+
+  - name: confidence_score
+    type: number
+    required: false
+    description: "Konfidenzwert der Klassifikation (0–1)."
+    example: 0.87
+
+  - name: quality_flag
+    type: enum
+    enum: quality_flag
+    required: false
+    description: "Einfache Qualitätskennzeichnung (ok, needs_review, rejected)."
+    example: "needs_review"
+
+  # --- Technische Felder -------------------------------------------------------
+  - name: created_at
+    type: datetime
+    required: false
+    description: "Zeitpunkt der Erstellung des Measure-Datensatzes."
+
+  - name: updated_at
+    type: datetime
+    required: false
+    description: "Zeitpunkt der letzten Änderung des Measure-Datensatzes."
+
+  - name: pipeline_version
+    type: string
+    required: false
+    description: "Version der Pipeline/Configs, mit der dieser Eintrag erzeugt wurde."
+    example: "pipeline_v0.3.1"
+
+# --------------------------------------------------------------------
+# Enumerationen
+# --------------------------------------------------------------------
+
+enums:
+  document_type:
+    values:
+      - id: council_minutes
+        label: "Ratsprotokoll"
+      - id: statute
+        label: "Satzung/Verordnung"
+      - id: funding_guideline
+        label: "Förderrichtlinie"
+      - id: climate_concept
+        label: "Klimaschutzkonzept"
+      - id: press_release
+        label: "Pressemitteilung"
+      - id: website_page
+        label: "Webseite"
+      - id: report
+        label: "Bericht/Studie"
+      - id: other
+        label: "Sonstiges"
+
+  policy_area:
+    values:
+      - id: energy_buildings
+        label: "Energie & Gebäude"
+      - id: renewable_energy
+        label: "Erneuerbare Energien"
+      - id: mobility_transport
+        label: "Verkehr & Mobilität"
+      - id: urban_planning
+        label: "Stadtentwicklung & Planung"
+      - id: adaptation_resilience
+        label: "Anpassung & Resilienz"
+      - id: waste_circular
+        label: "Abfall & Kreislaufwirtschaft"
+      - id: public_procurement
+        label: "Öffentliche Beschaffung"
+      - id: information_education
+        label: "Information & Bildung"
+      - id: governance
+        label: "Governance & Strategie"
+      - id: other
+        label: "Sonstiges"
+
+  instrument_type:
+    values:
+      - id: subsidy
+        label: "Finanzielle Förderung (Zuschuss/Darlehen)"
+      - id: tax_incentive
+        label: "Steuerlicher Anreiz"
+      - id: regulation
+        label: "Ordnungsrechtliche Maßnahme"
+      - id: standard
+        label: "Norm/Standard/Vorgabe"
+      - id: infrastructure_investment
+        label: "Infrastrukturinvestition"
+      - id: service
+        label: "Dienstleistung/Beratungsangebot"
+      - id: information_campaign
+        label: "Informations-/Sensibilisierungskampagne"
+      - id: planning_instrument
+        label: "Planerisches Instrument"
+      - id: voluntary_agreement
+        label: "Freiwillige Vereinbarung"
+      - id: other
+        label: "Sonstiges"
+
+  instrument_subtype:
+    values:
+      - id: grant
+        label: "Zuschuss"
+      - id: low_interest_loan
+        label: "Zinsgünstiges Darlehen"
+      - id: rebate
+        label: "Rabatt/Boni"
+      - id: tax_reduction
+        label: "Steuerermäßigung"
+      - id: fee_exemption
+        label: "Gebührenbefreiung"
+      - id: pilot_project
+        label: "Pilotprojekt"
+      - id: consultation
+        label: "Beratung"
+      - id: awareness_campaign
+        label: "Aufklärungskampagne"
+      - id: ordinance
+        label: "Satzung/Verordnung"
+      - id: guideline
+        label: "Leitlinie"
+      - id: other
+        label: "Sonstiges"
+
+  target_sector:
+    values:
+      - id: households
+        label: "Private Haushalte"
+      - id: enterprises
+        label: "Unternehmen"
+      - id: public_sector
+        label: "Öffentliche Einrichtungen"
+      - id: transport
+        label: "Verkehr/Transport"
+      - id: agriculture
+        label: "Landwirtschaft"
+      - id: cross_sectoral
+        label: "Sektorübergreifend"
+      - id: other
+        label: "Sonstiges"
+
+  target_group:
+    values:
+      - id: homeowners
+        label: "Wohneigentümer:innen"
+      - id: tenants
+        label: "Mieter:innen"
+      - id: sme
+        label: "KMU"
+      - id: large_enterprises
+        label: "Großunternehmen"
+      - id: associations
+        label: "Vereine/Verbände"
+      - id: schools
+        label: "Schulen/Bildungseinrichtungen"
+      - id: municipal_admin
+        label: "Kommunalverwaltung"
+      - id: general_public
+        label: "Öffentlichkeit"
+
+  climate_dimension:
+    values:
+      - id: mitigation
+        label: "Minderung (Mitigation)"
+      - id: adaptation
+        label: "Anpassung (Adaptation)"
+      - id: both
+        label: "Beides"
+      - id: unclear
+        label: "Unklar"
+
+  funding_level:
+    values:
+      - id: eu
+        label: "EU"
+      - id: national
+        label: "Bund"
+      - id: regional
+        label: "Land"
+      - id: local
+        label: "Kommune"
+      - id: private
+        label: "Privat/sonstige"
+      - id: mixed
+        label: "Gemischt/Mehrere Ebenen"
+
+  label_source:
+    values:
+      - id: gold
+        label: "Goldstandard (manuell)"
+      - id: heuristic
+        label: "Heuristik-basiert"
+      - id: llm
+        label: "LLM-basiert"
+      - id: mixed
+        label: "Kombiniert"
+      - id: unknown
+        label: "Unbekannt"
+
+  quality_flag:
+    values:
+      - id: ok
+        label: "In Ordnung"
+      - id: needs_review
+        label: "Manuelle Prüfung nötig"
+      - id: rejected
+        label: "Verworfen"

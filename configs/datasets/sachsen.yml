@@ -1,0 +1,43 @@
+# configs/sachsen.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_sn
+description: "Sachsen-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Sachsen"
+
+dataset_id: "de_sn"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_sn"
+municipalities_file: "data/de_sn/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_sn/raw/documents_raw.ndjson"
+    meta: "data/de_sn/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_sn/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_sn/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_sn/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_sn/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_sn/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_sn/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_sn/eval/gold_measures.ndjson"
+    reports_dir: "data/de_sn/eval/reports"
+  results:
+    measures_csv: "data/de_sn/results/measures_de_sn.csv"
+  meta:
+    discovered_seeds: "data/de_sn/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_sn/logs/crawl.log"
+    pipeline_log: "data/de_sn/logs/pipeline.log"
+
+municipalities: []

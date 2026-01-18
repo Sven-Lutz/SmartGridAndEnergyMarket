@@ -1,0 +1,43 @@
+# configs/mecklenburg_vorpommern.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_mv
+description: "Mecklenburg-Vorpommern-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Mecklenburg-Vorpommern"
+
+dataset_id: "de_mv"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_mv"
+municipalities_file: "data/de_mv/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_mv/raw/documents_raw.ndjson"
+    meta: "data/de_mv/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_mv/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_mv/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_mv/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_mv/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_mv/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_mv/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_mv/eval/gold_measures.ndjson"
+    reports_dir: "data/de_mv/eval/reports"
+  results:
+    measures_csv: "data/de_mv/results/measures_de_mv.csv"
+  meta:
+    discovered_seeds: "data/de_mv/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_mv/logs/crawl.log"
+    pipeline_log: "data/de_mv/logs/pipeline.log"
+
+municipalities: []

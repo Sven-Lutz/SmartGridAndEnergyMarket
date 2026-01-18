@@ -1,0 +1,43 @@
+# configs/nordrhein_westfalen.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_nw
+description: "Nordrhein-Westfalen-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Nordrhein-Westfalen"
+
+dataset_id: "de_nw"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_nw"
+municipalities_file: "data/de_nw/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_nw/raw/documents_raw.ndjson"
+    meta: "data/de_nw/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_nw/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_nw/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_nw/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_nw/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_nw/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_nw/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_nw/eval/gold_measures.ndjson"
+    reports_dir: "data/de_nw/eval/reports"
+  results:
+    measures_csv: "data/de_nw/results/measures_de_nw.csv"
+  meta:
+    discovered_seeds: "data/de_nw/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_nw/logs/crawl.log"
+    pipeline_log: "data/de_nw/logs/pipeline.log"
+
+municipalities: []

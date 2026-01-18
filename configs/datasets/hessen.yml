@@ -1,0 +1,43 @@
+# configs/hessen.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_he
+description: "Hessen-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Hessen"
+
+dataset_id: "de_he"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_he"
+municipalities_file: "data/de_he/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_he/raw/documents_raw.ndjson"
+    meta: "data/de_he/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_he/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_he/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_he/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_he/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_he/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_he/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_he/eval/gold_measures.ndjson"
+    reports_dir: "data/de_he/eval/reports"
+  results:
+    measures_csv: "data/de_he/results/measures_de_he.csv"
+  meta:
+    discovered_seeds: "data/de_he/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_he/logs/crawl.log"
+    pipeline_log: "data/de_he/logs/pipeline.log"
+
+municipalities: []

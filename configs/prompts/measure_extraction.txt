@@ -1,0 +1,85 @@
+SYSTEM INSTRUCTIONS / MEASURE EXTRACTION PROMPT
+------------------------------------------------
+
+Your task is to extract *individual municipal climate protection measures* from an unstructured document
+such as a PDF, webpage, or municipal climate action plan.
+
+The output MUST be in **JSONL format**, one measure per line.
+
+A “measure” refers to a concrete action, program, directive, subsidy, ordinance, investment, or recurring
+operational activity that aims to reduce emissions, increase energy efficiency, expand renewable energy,
+improve mobility, or address climate adaptation.
+
+A measure is NOT:
+- general background information (“climate change is important…”)
+- descriptive text about current status without an action
+- political announcements without a concrete instrument
+- pure reporting (“In 2022, the city reached X% emissions reduction”)
+- administrative meeting notices or generic agenda text
+
+------------------------------------------------
+DEFINITIONS (based on measure_schema.yml)
+------------------------------------------------
+
+For each measure, extract the following fields:
+
+- snippet:         The *exact text fragment* indicating the measure.
+- measure_title:   A short, human-readable title summarizing the measure (5–12 words).
+- policy_area:     One of:
+                     ["energy_buildings", "renewable_energy", "mobility_transport",
+                      "urban_planning", "adaptation_resilience", "waste_circular",
+                      "public_procurement", "information_education", "governance", "other"]
+- instrument_type: One of:
+                     ["subsidy", "tax_incentive", "regulation", "standard",
+                      "infrastructure_investment", "service", "information_campaign",
+                      "planning_instrument", "voluntary_agreement", "other"]
+- instrument_subtype: (optional) More specific variant (e.g. "grant", "rebate", "consultation").
+- target_sector:        (optional) One of:
+                     ["households", "enterprises", "public_sector", "transport",
+                      "agriculture", "cross_sectoral", "other"]
+- climate_dimension:    (optional) One of:
+                     ["mitigation", "adaptation", "both", "unclear"]
+- funding_program_level: (optional) ["eu", "national", "regional", "local", "private", "mixed"]
+- funding_program_code:  (optional) e.g. "NKI"
+- digitalization_level:  (optional) Integer 0–4 (see digitalization.yml)
+- confidence_score:      Value between 0 and 1
+
+All fields MUST be lowercase.
+
+------------------------------------------------
+INSTRUCTIONS
+------------------------------------------------
+
+1. Read the provided document text.
+2. Identify text fragments describing concrete actions or programs.
+3. For each action, extract:
+     - exact snippet
+     - classification fields (policy_area, instrument_type, …)
+     - optional attributes if present (subsidy amount etc.)
+4. Be conservative: Only include measures for which you are reasonably confident.
+5. Produce each measure as one JSON object per line (JSONL).
+
+------------------------------------------------
+OUTPUT FORMAT (JSONL)
+------------------------------------------------
+
+Each measure on its own line:
+
+{
+  "snippet": "...",
+  "measure_title": "...",
+  "policy_area": "...",
+  "instrument_type": "...",
+  "instrument_subtype": "...",
+  "target_sector": "...",
+  "climate_dimension": "...",
+  "funding_program_level": "...",
+  "funding_program_code": "...",
+  "digitalization_level": 3,
+  "confidence_score": 0.87
+}
+
+If no measures are present, output **no lines**.
+
+------------------------------------------------
+END OF INSTRUCTIONS

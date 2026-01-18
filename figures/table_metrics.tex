@@ -1,0 +1,15 @@
+\begin{table}
+\caption{Performance summary across LLM-only and post-gated operating points.}
+\label{tab:perf_summary}
+\begin{tabular}{p{6cm}rrrrrrr}
+\toprule
+setting & coverage & precision & recall\_classified & recall\_overall & fp & tp & n\_abstain \\
+\midrule
+LLM few-shot (no post-gate) & 0.98 & 0.14 & 1.00 & 1.00 & 18 & 3 & 1 \\
+Post-gate pos\_conf=0.80 & 0.53 & 1.00 & 1.00 & 0.33 & 0 & 1 & 21 \\
+Post-gate pos\_conf=0.85 (selected) & 0.53 & 1.00 & 1.00 & 0.33 & 0 & 1 & 21 \\
+Post-gate pos\_conf=0.90 & 0.53 & 1.00 & 1.00 & 0.33 & 0 & 1 & 21 \\
+Post-gate pos\_conf=0.95 & 0.51 & 0.00 & 0.00 & 0.00 & 0 & 0 & 22 \\
+\bottomrule
+\end{tabular}
+\end{table}

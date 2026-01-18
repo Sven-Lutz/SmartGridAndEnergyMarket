@@ -1,0 +1,35 @@
+{
+  "run_id": "2025-12-04T21-11-50_de_by_baseline",
+  "timestamp_start": "2025-12-04T21:11:50.074445+00:00",
+  "timestamp_end": "2025-12-04T21:11:50.097255+00:00",
+  "scope": "de_by",
+  "mode": "baseline",
+  "steps_planned": [
+    "crawl",
+    "extract"
+  ],
+  "steps_executed": [],
+  "git_commit": "3868b1c60d6b711ee8df017c2988f04e9db3b596",
+  "llm_config": {},
+  "scope_config": {
+    "description": "Alle Kommunen in Bayern (Produktivscope)",
+    "country": "DE",
+    "level": "municipality",
+    "region": "Bayern",
+    "municipalities": null,
+    "crawl": {
+      "max_municipalities": 2000,
+      "max_pages_per_municipality": 300,
+      "max_depth": 3
+    },
+    "discovery": {
+      "enable_llm_domain_resolution": true,
+      "min_domain_confidence": 0.8
+    }
+  },
+  "paths": {
+    "data_root": "/Users/svenlutz/Documents/KIT/WInfo/Seminararbeit/k3-pipeline/data/de_by"
+  },
+  "dry_run": false,
+  "force": true
+}

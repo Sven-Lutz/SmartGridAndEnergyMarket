@@ -1,0 +1,43 @@
+# configs/saarland.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_sl
+description: "Saarland-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Saarland"
+
+dataset_id: "de_sl"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_sl"
+municipalities_file: "data/de_sl/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_sl/raw/documents_raw.ndjson"
+    meta: "data/de_sl/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_sl/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_sl/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_sl/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_sl/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_sl/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_sl/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_sl/eval/gold_measures.ndjson"
+    reports_dir: "data/de_sl/eval/reports"
+  results:
+    measures_csv: "data/de_sl/results/measures_de_sl.csv"
+  meta:
+    discovered_seeds: "data/de_sl/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_sl/logs/crawl.log"
+    pipeline_log: "data/de_sl/logs/pipeline.log"
+
+municipalities: []

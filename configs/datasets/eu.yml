@@ -1,0 +1,43 @@
+# configs/eu.yml
+
+inherits_from: "bayern.yml"
+
+scope: eu
+description: "EU-Ebene: Institutionen, Generaldirektionen, EU-weite Programme."
+
+country: "EU"
+level: "supranational"
+region: "EU"
+
+dataset_id: "eu"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/eu"
+municipalities_file: "data/eu/meta/institutions.ndjson"
+
+paths:
+  raw:
+    documents: "data/eu/raw/documents_raw.ndjson"
+    meta: "data/eu/raw/meta.ndjson"
+  extracted:
+    documents: "data/eu/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/eu/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/eu/classified/measures_baseline.ndjson"
+    measures_labeled: "data/eu/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/eu/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/eu/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/eu/eval/gold_measures.ndjson"
+    reports_dir: "data/eu/eval/reports"
+  results:
+    measures_csv: "data/eu/results/measures_eu.csv"
+  meta:
+    discovered_seeds: "data/eu/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/eu/logs/crawl.log"
+    pipeline_log: "data/eu/logs/pipeline.log"
+
+municipalities: []

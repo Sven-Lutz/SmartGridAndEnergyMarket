@@ -1,0 +1,176 @@
+# configs/bayern.yml
+
+scope: de_by_full
+description: "Bayern-Scope mit Fokus auf kommunale Klimaschutz- und Energie-Seiten."
+
+# explizit für Auswertungen
+country_code: "DE"
+state_code: "BY"
+
+# alte Felder kannst du optional behalten, falls sie an anderer Stelle genutzt werden
+country: "DE"
+level: "municipality"
+region: "Bayern"
+
+dataset_id: "de_by_full"
+version: "0.1.0"
+created: "2025-12-08"
+
+# Root für den Voll-Scope
+data_root: "data/de_by_full"
+
+# Wir nutzen hier die CSV, die du im Screenshot zeigst
+municipalities_file: "data/de_by_full/meta/municipalities.csv"
+
+paths:
+  raw:
+    documents: "data/de_by_full/staging/documents_raw.ndjson"
+    meta: "data/de_by_full/staging/meta.ndjson"
+
+  extracted:
+    documents: "data/de_by_full/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_by_full/extracted/policy_candidates.ndjson"
+
+  classified:
+    measures_baseline: "data/de_by_full/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_by_full/classified/measures_labeled.ndjson"
+
+  labeling:
+    export_csv: "data/de_by_full/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_by_full/labeling/policy_candidates_labeled.csv"
+
+  eval:
+    goldstandard: "data/de_by_full/eval/gold_measures.ndjson"
+    reports_dir: "data/de_by_full/eval/reports"
+
+  results:
+    measures_csv: "data/de_by_full/analysis/measures_de_by_full.csv"
+
+  meta:
+    discovered_seeds: "data/de_by_full/meta/discovered_seeds.ndjson"
+
+  logs:
+    crawl_log: "data/de_by_full/logs/crawl.log"
+    pipeline_log: "data/de_by_full/logs/pipeline.log"
+
+crawl:
+  max_municipalities: 2000
+  max_pages_per_municipality: 300
+  max_depth: 3
+  user_agent: "k3-crawler/0.1 (de_by_full)"
+  obey_robots_txt: true
+  request_timeout_seconds: 15
+  retry_attempts: 3
+  parallel_requests: 8
+
+  allowed_mime_types:
+    - "text/html"
+    - "application/pdf"
+  disallowed_mime_types:
+    - "image/*"
+    - "video/*"
+
+discovery:
+  enable_llm_domain_resolution: true
+  min_domain_confidence: 0.8
+  max_seeds_per_municipality: 5
+  write_discovered_seeds: "data/de_by_full/meta/discovered_seeds.ndjson"
+
+extraction:
+  html:
+    enabled: true
+    follow_internal_links_only: true
+    strip_selectors:
+      - "nav"
+      - "header"
+      - "footer"
+      - ".cookie-banner"
+    min_text_length: 400
+
+  pdf:
+    enabled: true
+    max_pages: 60
+    ocr:
+      enabled: false
+
+  text_postprocessing:
+    normalize_whitespace: true
+    remove_control_chars: true
+
+policy_filter:
+  min_chars: 600
+  max_chars: 40000
+  keyword_config: "keywords.yml"
+  require_climate_keyword: true
+
+classification:
+  measure_schema_config: "measure_schema.yml"
+  digitalization_rules_config: "digitalization_rules.yml"
+
+  baseline:
+    strategy: "rule_based"
+    ruleset: "rules/baseline_measures.yml"
+    output_file: "data/de_by_full/classified/measures_baseline.ndjson"
+
+labeling:
+  export:
+    output_csv: "data/de_by_full/labeling/policy_candidates_for_labeling.csv"
+    fields:
+      - "policy_id"
+      - "municipality_id"
+      - "source_url"
+      - "snippet"
+      - "predicted_label"
+
+  import:
+    labeled_csv: "data/de_by_full/labeling/policy_candidates_labeled.csv"
+    merge_output: "data/de_by_full/classified/measures_labeled.ndjson"
+
+evaluation:
+  goldstandard_file: "data/de_by_full/eval/gold_measures.ndjson"
+  report_dir: "data/de_by_full/eval/reports"
+  metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+    - "support"
+
+llm:
+  enabled: true
+  config_file: "llm.yml"
+
+# Beispiel-Municipality-Seed-Konfiguration (kannst du erweitern)
+municipalities:
+  - id: muenchen
+    name: "Landeshauptstadt München"
+    base_url: "https://stadt.muenchen.de"
+
+    seeds:
+      - "https://stadt.muenchen.de/rathaus/verwaltung/referat-klima-umweltschutz.html"
+
+    include_patterns:
+      - "/klima"
+      - "/klimaschutz"
+      - "/energie"
+      - "/foerder"
+      - "/förder"
+      - "/umwelt"
+      - "/nachhaltigkeit"
+      - "/foerderprogramm"
+      - "/förderprogramm"
+
+    exclude_patterns:
+      - "/branchenbuch"
+      - "/service/branchenbuch"
+      - "/veranstaltungen"
+      - "/freizeit"
+      - "/sehenswuerdigkeiten"
+      - "/weihnachten"
+      - "/wetter"
+      - "/kino"
+      - "/konzerte"
+      - "/tourismus"
+      - "/jobs"
+      - "/stellen"
+      - "/impressum"
+      - "/kontakt"

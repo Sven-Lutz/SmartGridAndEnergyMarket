@@ -1,0 +1,43 @@
+# configs/brandenburg.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_bb
+description: "Brandenburg-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Brandenburg"
+
+dataset_id: "de_bb"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_bb"
+municipalities_file: "data/de_bb/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_bb/raw/documents_raw.ndjson"
+    meta: "data/de_bb/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_bb/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_bb/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_bb/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_bb/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_bb/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_bb/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_bb/eval/gold_measures.ndjson"
+    reports_dir: "data/de_bb/eval/reports"
+  results:
+    measures_csv: "data/de_bb/results/measures_de_bb.csv"
+  meta:
+    discovered_seeds: "data/de_bb/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_bb/logs/crawl.log"
+    pipeline_log: "data/de_bb/logs/pipeline.log"
+
+municipalities: []

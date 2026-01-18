@@ -1,0 +1,28 @@
+name: arlt
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - pip
+  - requests
+  - beautifulsoup4
+  - lxml
+  - pandas
+  - numpy
+  - scikit-learn
+  - tqdm
+  - python-dotenv
+  - pyyaml
+
+  - pip:
+      - openai>=1.59.0
+      - pypdf
+      - nltk
+      - sentence-transformers
+      - transformers
+      - tokenizers
+      - ipython
+      - jupyter
+      - rich

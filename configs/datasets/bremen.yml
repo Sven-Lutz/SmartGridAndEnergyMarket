@@ -1,0 +1,43 @@
+# configs/bremen.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_hb
+description: "Bremen-Scope (Bremen, Bremerhaven)."
+
+country: "DE"
+level: "municipality"
+region: "Bremen"
+
+dataset_id: "de_hb"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_hb"
+municipalities_file: "data/de_hb/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_hb/raw/documents_raw.ndjson"
+    meta: "data/de_hb/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_hb/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_hb/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_hb/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_hb/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_hb/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_hb/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_hb/eval/gold_measures.ndjson"
+    reports_dir: "data/de_hb/eval/reports"
+  results:
+    measures_csv: "data/de_hb/results/measures_de_hb.csv"
+  meta:
+    discovered_seeds: "data/de_hb/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_hb/logs/crawl.log"
+    pipeline_log: "data/de_hb/logs/pipeline.log"
+
+municipalities: []

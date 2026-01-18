@@ -1,0 +1,43 @@
+# configs/sachsen_anhalt.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_st
+description: "Sachsen-Anhalt-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Sachsen-Anhalt"
+
+dataset_id: "de_st"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_st"
+municipalities_file: "data/de_st/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_st/raw/documents_raw.ndjson"
+    meta: "data/de_st/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_st/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_st/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_st/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_st/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_st/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_st/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_st/eval/gold_measures.ndjson"
+    reports_dir: "data/de_st/eval/reports"
+  results:
+    measures_csv: "data/de_st/results/measures_de_st.csv"
+  meta:
+    discovered_seeds: "data/de_st/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_st/logs/crawl.log"
+    pipeline_log: "data/de_st/logs/pipeline.log"
+
+municipalities: []

@@ -1,0 +1,43 @@
+scopes:
+  de_sample:
+    dataset_id: "de_sample"
+    description: "Sample-Datensatz (Karlsruhe + München) für Tests"
+    base_dir: "data/de_sample"
+    sample_dataset_id: "de_sample"
+    # optional: falls du auch hier ein Dataset-Config möchtest
+    # dataset_config: "configs/de_sample.yml"
+
+  de_by:
+    dataset_id: "de_by"
+    description: "Bayern (Konfiguration, Seeds etc. – kleiner Pilot-Scope)"
+    base_dir: "data/de_by"
+    # wir verwenden weiterhin de_sample als Referenz-Sample
+    sample_dataset_id: "de_sample"
+    # nutzt dieselbe Bayern-Dataset-Konfiguration
+    dataset_config: "configs/bayern.yml"
+
+  de_by_full:
+    dataset_id: "de_by_full"
+    description: "Bayernweit: Kommunale Klimapolitik (Voll-Scope)"
+    base_dir: "data/de_by_full"
+    sample_dataset_id: "de_sample"
+    # hier hängt dein Bayern-Dataset-Config
+    dataset_config: "configs/bayern.yml"
+    llm:
+      enabled: true
+
+  de_federal:
+    dataset_id: "de_federal"
+    description: "Bundesweite Klimaschutz-/Förderprogramme"
+    base_dir: "data/de_federal"
+    sample_dataset_id: "de_sample"
+    llm:
+      enabled: true
+
+  eu:
+    dataset_id: "eu"
+    description: "EU-Klimapolitik und -Förderprogramme"
+    base_dir: "data/eu"
+    sample_dataset_id: "de_sample"
+    llm:
+      enabled: true

@@ -1,0 +1,6 @@
+setting,n_total,n_classified,n_abstain,coverage,tp,tn,fp,fn,precision,recall_classified,f1_classified,recall_overall,accuracy_classified
+LLM few-shot (no post-gate),45,44,1,0.9777777777777777,3,23,18,0,0.14285714285714285,1.0,0.25,1.0,0.5909090909090909
+Post-gate pos_conf=0.80,45,24,21,0.5333333333333333,1,23,0,0,1.0,1.0,1.0,0.3333333333333333,1.0
+Post-gate pos_conf=0.85 (selected),45,24,21,0.5333333333333333,1,23,0,0,1.0,1.0,1.0,0.3333333333333333,1.0
+Post-gate pos_conf=0.90,45,24,21,0.5333333333333333,1,23,0,0,1.0,1.0,1.0,0.3333333333333333,1.0
+Post-gate pos_conf=0.95,45,23,22,0.5111111111111111,0,23,0,0,0.0,0.0,0.0,0.0,1.0

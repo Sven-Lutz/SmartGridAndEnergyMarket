@@ -1,0 +1,43 @@
+# configs/thueringen.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_th
+description: "Thüringen-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Thüringen"
+
+dataset_id: "de_th"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_th"
+municipalities_file: "data/de_th/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_th/raw/documents_raw.ndjson"
+    meta: "data/de_th/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_th/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_th/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_th/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_th/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_th/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_th/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_th/eval/gold_measures.ndjson"
+    reports_dir: "data/de_th/eval/reports"
+  results:
+    measures_csv: "data/de_th/results/measures_de_th.csv"
+  meta:
+    discovered_seeds: "data/de_th/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_th/logs/crawl.log"
+    pipeline_log: "data/de_th/logs/pipeline.log"
+
+municipalities: []

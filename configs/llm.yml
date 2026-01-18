@@ -1,0 +1,260 @@
+schema_version: "1.1"
+
+# -------------------------------------------------
+# Globale Einstellungen
+# -------------------------------------------------
+llm:
+  enabled: true
+  dry_run: false
+  default_provider: ollama
+  default_profile: measure_gate_closed_taxonomy_ollama
+  retry:
+    max_attempts: 2
+    backoff_seconds: 2
+    backoff_factor: 2.0
+
+# -------------------------------------------------
+# Provider-Definitionen
+# -------------------------------------------------
+providers:
+  ollama:
+    type: "ollama"
+    base_url: "http://localhost:11434"
+    request_timeout_seconds: 600
+    models:
+      mistral_local:
+        model_name: "mistral"
+        max_tokens: 2048
+        default_temperature: 0.0
+
+  openai:
+    type: "openai"
+    api_key_env: "OPENAI_API_KEY"
+    models:
+      # New-style explicit model id (preferred in new profiles)
+      gpt-4.1-mini:
+        model_name: "gpt-4.1-mini"
+        max_tokens: 4096
+        default_temperature: 0.0
+
+      # Legacy aliases used by existing profiles
+      gpt_4o:
+        model_name: "gpt-4o"
+        max_tokens: 4096
+        default_temperature: 0.2
+
+      gpt_4o_mini:
+        model_name: "gpt-4o-mini"
+        max_tokens: 4096
+        default_temperature: 0.2
+
+      o3_mini:
+        model_name: "o3-mini"
+        max_tokens: 4096
+        default_temperature: 0.1
+
+  gemini:
+    type: "google_gemini"
+    api_key_env: "GEMINI_API_KEY"
+    models:
+      gemini_15_pro:
+        model_name: "gemini-1.5-pro"
+        max_tokens: 4096
+        default_temperature: 0.2
+
+      gemini_15_flash:
+        model_name: "gemini-1.5-flash"
+        max_tokens: 4096
+        default_temperature: 0.3
+
+# -------------------------------------------------
+# Prompt-Ressourcen (Dateipfade)
+# -------------------------------------------------
+prompts:
+  # Gate + closed taxonomy (new)
+  measure_gate_closed_taxonomy: "configs/prompts/measure_classification.txt"
+
+  # Existing prompts
+  discovery_domains: "prompts/municipalities_domain.txt"
+  measure_extraction: "prompts/measure_extraction.txt"
+  classification_measure: "prompts/measure_classification.txt"
+  labeling_guidelines: "prompts/labeling_guidelines.txt"
+  summarization: "prompts/measure_summarization.txt"
+
+# -------------------------------------------------
+# Task-Profile
+# -------------------------------------------------
+profiles:
+  measure_gate_closed_taxonomy_ollama:
+    provider: ollama
+    model: mistral_local
+    prompt_ref: measure_gate_closed_taxonomy
+    generation:
+      temperature: 0.0
+      top_p: 0.9
+      max_tokens: 256
+
+    input_limits:
+      max_candidates_per_call: 1
+      max_chars_per_candidate: 1200
+    output:
+      expected_format: "json"
+      schema_hint: "measure_gate_closed_taxonomy_v1"
+    postprocess:
+      json_strict: true
+      allow_nulls: true
+      enforce_closed_taxonomy: true
+
+  # 1) Domain-/Seed-Discovery
+  discovery_domains:
+    description: "LLM-gestützte Erkennung geeigneter Domains/Unterseiten für Klima-/Energiethemen."
+    provider: "openai"
+    model: "gpt_4o_mini"
+    prompt_ref: "discovery_domains"
+    generation:
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 1024
+    input_limits:
+      max_urls_per_call: 10
+      max_chars_per_url_context: 1000
+    output:
+      expected_format: "json"
+      schema:
+        fields:
+          - "base_url"
+          - "discovered_paths"
+          - "confidence_score"
+          - "rationale"
+
+  # 2) Maßnahmentexte aus Dokumenten extrahieren (policy_candidates)
+  extraction_measures:
+    description: "LLM-Extraktion von potenziellen Klimaschutzmaßnahmen aus Dokumententexten."
+    provider: "openai"
+    model: "gpt_4o"
+    prompt_ref: "measure_extraction"
+    generation:
+      temperature: 0.1
+      top_p: 0.9
+      max_tokens: 2048
+    input_limits:
+      max_chars_per_document: 6000
+      max_snippets_per_call: 5
+    output:
+      expected_format: "jsonl"
+      schema:
+        fields:
+          - "snippet"
+          - "measure_title"
+          - "policy_area"
+          - "instrument_type"
+          - "target_sector"
+          - "digitalization_level"
+          - "confidence_score"
+
+  # 3) Klassifikation von policy_candidates (MVP, lokal)
+  classification_baseline:
+    description: "LLM-basierte Klassifikation von policy_candidates zu strukturierten measures (Baseline)."
+    provider: "ollama"
+    model: "mistral_local"
+    prompt_ref: "classification_measure"
+    generation:
+      temperature: 0.0
+      top_p: 0.9
+      max_tokens: 768
+    input_limits:
+      max_candidates_per_call: 2
+      max_chars_per_candidate: 1200
+    output:
+      expected_format: "jsonl"
+      schema:
+        fields:
+          - "is_policy_measure"
+          - "measure_id"
+          - "policy_area"
+          - "instrument_type"
+          - "instrument_subtype"
+          - "target_sector"
+          - "climate_dimension"
+          - "funding_program_level"
+          - "funding_program_code"
+          - "digitalization_level"
+          - "confidence_score"
+
+  # 4) Cloud-Variante der Klassifikation (Fallback / Vergleich)
+  classification_openai:
+    description: "Wie classification_baseline, aber via OpenAI."
+    provider: "openai"
+    model: "gpt_4o_mini"
+    prompt_ref: "classification_measure"
+    generation:
+      temperature: 0.0
+      top_p: 0.9
+      max_tokens: 1536
+    input_limits:
+      max_candidates_per_call: 10
+      max_chars_per_candidate: 2000
+    output:
+      expected_format: "jsonl"
+      schema:
+        fields:
+          - "is_policy_measure"
+          - "measure_id"
+          - "policy_area"
+          - "instrument_type"
+          - "instrument_subtype"
+          - "target_sector"
+          - "climate_dimension"
+          - "funding_program_level"
+          - "funding_program_code"
+          - "digitalization_level"
+          - "confidence_score"
+
+  # 5) Auto-Labeling für Goldstandard-/Trainingsdaten
+  auto_labeling:
+    description: "Halbautomatisches Labeling von Kandidaten, um Trainings-/Golddaten zu erzeugen."
+    provider: "gemini"
+    model: "gemini_15_pro"
+    prompt_ref: "labeling_guidelines"
+    generation:
+      temperature: 0.1
+      top_p: 0.9
+      max_tokens: 2048
+    input_limits:
+      max_items_per_call: 5
+      max_chars_per_item: 3000
+    output:
+      expected_format: "jsonl"
+      schema:
+        fields:
+          - "candidate_id"
+          - "labels"
+          - "confidence_score"
+          - "rationale"
+
+  # 6) Zusammenfassungen / Research-Support
+  summarization:
+    description: "Kurzfassungen von Maßnahmen oder Dokumenten für qualitative Auswertungen."
+    provider: "openai"
+    model: "gpt_4o_mini"
+    prompt_ref: "summarization"
+    generation:
+      temperature: 0.3
+      top_p: 0.95
+      max_tokens: 1024
+    input_limits:
+      max_chars_per_input: 4000
+    output:
+      expected_format: "text"
+      schema:
+        fields:
+          - "summary"
+
+# -------------------------------------------------
+# Sicherheits-/Compliance-Optionen
+# -------------------------------------------------
+safety:
+  block_personal_data_extraction: true
+  block_sensitive_attributes: true
+  block_explicit_content: true
+  provider_overrides: {}

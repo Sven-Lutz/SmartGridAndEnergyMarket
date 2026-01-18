@@ -1,0 +1,43 @@
+# configs/rheinland_pfalz.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_rp
+description: "Rheinland-Pfalz-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Rheinland-Pfalz"
+
+dataset_id: "de_rp"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_rp"
+municipalities_file: "data/de_rp/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_rp/raw/documents_raw.ndjson"
+    meta: "data/de_rp/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_rp/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_rp/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_rp/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_rp/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_rp/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_rp/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_rp/eval/gold_measures.ndjson"
+    reports_dir: "data/de_rp/eval/reports"
+  results:
+    measures_csv: "data/de_rp/results/measures_de_rp.csv"
+  meta:
+    discovered_seeds: "data/de_rp/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_rp/logs/crawl.log"
+    pipeline_log: "data/de_rp/logs/pipeline.log"
+
+municipalities: []

@@ -1,0 +1,114 @@
+# rules/digitalization.yml
+# Heuristiken zur Bestimmung des Digitalisierungsgrads von Angeboten/Prozessen
+
+schema_version: "1.0"
+
+levels:
+  - id: 0
+    name: "offline_only"
+    score: 0
+    description: "Nur Hinweise oder Kontaktangaben, keine digitalen Formulare oder Downloads."
+
+    indicators:
+      url_contains_any: []
+      html_contains_any:
+        - "<address"
+        - "mailto:"
+      text_contains_any:
+        - "bitte wenden Sie sich an das Rathaus"
+        - "nur persönlich im Amt"
+        - "nur schriftlich beantragen"
+        - "persönlich im Bürgerbüro"
+        - "telefonisch zu beantragen"
+
+  - id: 1
+    name: "download_form"
+    score: 1
+    description: "Formulare als Download (PDF/Word), Einreichung nicht voll digital."
+
+    indicators:
+      url_suffix_any:
+        - ".pdf"
+        - ".doc"
+        - ".docx"
+      text_contains_any:
+        - "Antragsformular zum Download"
+        - "Formular als PDF"
+        - "Formular herunterladen"
+        - "Antrag als Vordruck"
+      html_contains_any:
+        - "download"
+        - "href=\"/media"
+        - "href=\"/fileadmin"
+
+  - id: 2
+    name: "email_submission"
+    score: 2
+    description: "Download-Formulare + explizite Möglichkeit zur Einreichung per E-Mail."
+
+    indicators:
+      html_contains_any:
+        - "mailto:"
+      text_contains_any:
+        - "ausgefülltes Formular per E-Mail senden"
+        - "Antrag per E-Mail einreichen"
+        - "senden Sie den Antrag an"
+        - "Scan des unterschriebenen Antrags"
+      url_suffix_any:
+        - ".pdf"
+        - ".doc"
+        - ".docx"
+
+  - id: 3
+    name: "online_form_partial"
+    score: 3
+    description: "Online-Formular vorhanden, aber evtl. mit Medienbruch (z.B. Ausdruck/Unterschrift)."
+
+    indicators:
+      html_contains_any:
+        - "<form"
+        - "type=\"submit\""
+        - "online-dienst"
+        - "buergerportal"
+        - "buerger-service-portal"
+        - "service-bw.de/leistung"
+      text_contains_any:
+        - "Online-Dienst"
+        - "Online-Service"
+        - "online beantragen"
+        - "elektronisch beantragen"
+        - "Online-Formular"
+      negative_text_contains_any:
+        - "anschließend ausdrucken und unterschreiben"
+
+  - id: 4
+    name: "online_full_digital"
+    score: 4
+    description: "End-to-End digitaler Prozess, inkl. elektronischer Authentifizierung und Übermittlung."
+
+    indicators:
+      html_contains_any:
+        - "eID"
+        - "bundid"
+        - "npa"
+        - "servicekonto"
+        - "openid-connect"
+      text_contains_any:
+        - "vollständig online beantragen"
+        - "ohne persönliches Erscheinen"
+        - "elektronische Signatur"
+        - "Servicekonto erforderlich"
+        - "Anmeldung mit BundID"
+      url_contains_any:
+        - "ozg"
+        - "serviceportal"
+        - "buergerportal"
+        - "onlinezugangsgesetz"
+
+# Optional: gewichtete Aggregation, falls mehrere Indikatoren greifen
+scoring:
+  # Standard: höchster Level gewinnt
+  strategy: "max_level"
+  # Alternativ-Strategien könnten später ergänzt werden:
+  # - "weighted_sum"
+  # - "majority_vote"

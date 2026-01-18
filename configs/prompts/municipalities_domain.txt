@@ -1,0 +1,67 @@
+SYSTEM INSTRUCTIONS / DOMAIN DISCOVERY PROMPT
+---------------------------------------------
+
+You are given:
+- the base URL of a municipality,
+- a list of candidate URLs found during crawling,
+- optional metadata.
+
+Your task is to determine which URLs are *likely relevant* for municipal climate protection,
+energy transition, renewable energy, adaptation, sustainability, or related policy instruments.
+
+Examples of relevant topics:
+- climate protection ("Klimaschutz")
+- energy efficiency, renewable energy, solar programs
+- mobility and transportation measures (radverkehr, e-mobility)
+- adaptation/resilience (heat action plans, flood protection)
+- funding opportunities, subsidy programs, grants
+- municipal governance (climate concepts, action plans)
+- online forms related to these areas
+
+Irrelevant examples:
+- tourism, events, leisure, sports
+- job listings, impressum/contact pages
+- general administrative pages with no climate connection
+- business directories or local guides
+
+---------------------------------------------
+INSTRUCTIONS
+---------------------------------------------
+
+1. Review all provided URLs.
+2. Identify URLs that likely contain climate-related content or policy instruments.
+3. For each relevant URL, estimate:
+   - confidence_score (0–1)
+   - rationale (short explanation)
+4. Suggest additional high-value paths if you can infer them from the structure
+   (e.g., "/umwelt", "/klimaschutz", "/energie", "/foerderung" etc.)
+5. Output must be well-structured JSON.
+
+---------------------------------------------
+OUTPUT FORMAT (JSON)
+---------------------------------------------
+
+{
+  "base_url": "<base>",
+  "discovered_paths": [
+    {
+      "url": "<full-url>",
+      "confidence_score": 0.92,
+      "rationale": "Contains 'klimaschutz' and likely lists measures."
+    },
+    {
+      "url": "<full-url>",
+      "confidence_score": 0.81,
+      "rationale": "Energy-related content based on path keywords."
+    }
+  ],
+  "recommended_keywords": [
+    "klimaschutz",
+    "energie",
+    "foerder",
+    "nachhaltigkeit"
+  ]
+}
+
+---------------------------------------------
+END OF INSTRUCTIONS

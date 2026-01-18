@@ -1,0 +1,43 @@
+# configs/bund.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_bund
+description: "Bundesebene: Ministerien, nachgeordnete Behörden und bundesweite Förderprogramme."
+
+country: "DE"
+level: "federal"
+region: "Bund"
+
+dataset_id: "de_bund"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_bund"
+municipalities_file: "data/de_bund/meta/institutions.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_bund/raw/documents_raw.ndjson"
+    meta: "data/de_bund/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_bund/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_bund/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_bund/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_bund/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_bund/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_bund/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_bund/eval/gold_measures.ndjson"
+    reports_dir: "data/de_bund/eval/reports"
+  results:
+    measures_csv: "data/de_bund/results/measures_de_bund.csv"
+  meta:
+    discovered_seeds: "data/de_bund/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_bund/logs/crawl.log"
+    pipeline_log: "data/de_bund/logs/pipeline.log"
+
+municipalities: []

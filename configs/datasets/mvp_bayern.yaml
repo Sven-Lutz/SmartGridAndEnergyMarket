@@ -1,0 +1,47 @@
+run_id: "bayern_mvp_v1"
+
+policy_field: "mobilitaet"
+measure_type: "foerderung"
+
+limits:
+  max_depth: 2
+  max_docs_per_commune: 40
+  max_pdfs_per_commune: 8
+  max_total_requests: 400
+  rate_limit_seconds: 1.0
+
+filters:
+  allowed_content_types: ["text/html", "application/pdf"]
+  keyword_gate:
+    - klima
+    - klimaschutz
+    - mobil
+    - verkehr
+    - rad
+    - lade
+    - e-
+    - foerder
+    - förder
+    - zuschuss
+    - prämie
+    - praemie
+
+communes:
+  - id: "muenchen"
+    seed_url: "https://stadt.muenchen.de/rathaus/verwaltung/leitlinien/nachhaltigkeit.html"
+    allowed_domains: ["stadt.muenchen.de"]
+  - id: "nuernberg"
+    seed_url: "https://www.nuernberg.de/internet/stadtportal/nuernberg_mobil.html"
+    allowed_domains: ["www.nuernberg.de"]
+  - id: "bayreuth"
+    seed_url: "https://www.bayreuth.de/rathaus-buergerservice/umwelt-klima/klimaschutz-und-energie/"
+    allowed_domains: ["www.bayreuth.de"]
+  - id: "neu_ulm"
+    seed_url: "https://nu.neu-ulm.de/buerger-service/leben-in-neu-ulm/umwelt-natur/energie-klimaschutz"
+    allowed_domains: ["nu.neu-ulm.de"]
+  - id: "noerdlingen"
+    seed_url: "https://www.noerdlingen.de/stadt-rathaus-aktuell/klimaschutz"
+    allowed_domains: ["www.noerdlingen.de"]
+  - id: "guenzburg"
+    seed_url: "https://www.guenzburg.de/umwelt-mobilitaet/klimaschutz-energie/"
+    allowed_domains: ["www.guenzburg.de"]

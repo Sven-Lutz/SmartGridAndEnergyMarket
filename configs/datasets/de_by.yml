@@ -1,0 +1,14 @@
+id: de_by
+label: "Bayern – kreisfreie Städte & Große Kreisstädte (Pilot)"
+data_root: "data/de_by"
+
+crawler:
+  max_municipalities: 50
+  max_pages_per_municipality: 80
+  max_depth: 2
+  timeout: 10.0
+  user_agent: "k3-pipeline-de_by/0.1"
+
+extraction:
+  input_filename: "staging/documents_raw.ndjson"
+  output_filename: "extracted/documents_extracted.ndjson"

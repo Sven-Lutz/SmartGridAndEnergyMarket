@@ -1,0 +1,43 @@
+# configs/berlin.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_be
+description: "Berlin-Scope mit Fokus auf Bezirke und Senatsstrukturen."
+
+country: "DE"
+level: "municipality"
+region: "Berlin"
+
+dataset_id: "de_be"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_be"
+municipalities_file: "data/de_be/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_be/raw/documents_raw.ndjson"
+    meta: "data/de_be/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_be/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_be/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_be/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_be/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_be/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_be/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_be/eval/gold_measures.ndjson"
+    reports_dir: "data/de_be/eval/reports"
+  results:
+    measures_csv: "data/de_be/results/measures_de_be.csv"
+  meta:
+    discovered_seeds: "data/de_be/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_be/logs/crawl.log"
+    pipeline_log: "data/de_be/logs/pipeline.log"
+
+municipalities: []

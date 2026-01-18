@@ -1,0 +1,43 @@
+# configs/schleswig_holstein.yml
+
+inherits_from: "bayern.yml"
+
+scope: de_sh
+description: "Schleswig-Holstein-Scope mit allen Kommunen."
+
+country: "DE"
+level: "municipality"
+region: "Schleswig-Holstein"
+
+dataset_id: "de_sh"
+version: "0.1.0"
+created: "2025-12-08"
+
+data_root: "data/de_sh"
+municipalities_file: "data/de_sh/meta/municipalities.ndjson"
+
+paths:
+  raw:
+    documents: "data/de_sh/raw/documents_raw.ndjson"
+    meta: "data/de_sh/raw/meta.ndjson"
+  extracted:
+    documents: "data/de_sh/extracted/documents_extracted.ndjson"
+    policy_candidates: "data/de_sh/extracted/policy_candidates.ndjson"
+  classified:
+    measures_baseline: "data/de_sh/classified/measures_baseline.ndjson"
+    measures_labeled: "data/de_sh/classified/measures_labeled.ndjson"
+  labeling:
+    export_csv: "data/de_sh/labeling/policy_candidates_for_labeling.csv"
+    labeled_csv: "data/de_sh/labeling/policy_candidates_labeled.csv"
+  eval:
+    goldstandard: "data/de_sh/eval/gold_measures.ndjson"
+    reports_dir: "data/de_sh/eval/reports"
+  results:
+    measures_csv: "data/de_sh/results/measures_de_sh.csv"
+  meta:
+    discovered_seeds: "data/de_sh/meta/discovered_seeds.ndjson"
+  logs:
+    crawl_log: "data/de_sh/logs/crawl.log"
+    pipeline_log: "data/de_sh/logs/pipeline.log"
+
+municipalities: []
